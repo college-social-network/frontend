@@ -45,8 +45,8 @@ div, form, label, input, h2 {
 <body>
 
 <p id="redirect_reason"></p>
-<h2>Paytracking Login</h2>
-
+<h2>Network Login</h2>
+<h3 style="color:Red;">This is a beta application. <br>Please do not use a password that you use on other sites! </h3>
 
 <div>
 
