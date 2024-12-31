@@ -33,4 +33,14 @@ try {
 }
 //recordUse($fname, $dttime, $startTime, $endTime, $userid, $fsucc);
 
+class api {
+
+    function fetchFollowersByUsername($username, $base_server_url)
+    {#TODO this
+        $url = $base_server_url + "WORK IN PROGRESS"
+    }
+
+}
+
+
 ?>
