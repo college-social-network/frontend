@@ -1,17 +1,21 @@
-
 <?php
 //$fname = "QUICKFINANCE";
 //$startTime = time();
 //$dttime = date("Y-m-d H:i:s",$startTime);
+
 $userID = "default_no_data";
 //$endTime = time();
 //$fsucc = "fail";
 function recordUse($fname, $dttime, $startTime, $endTime, $userid, $fsucc) {
-$remote =$_SERVER['REMOTE_ADDR'];
+    global $dbname;
+    global $servername;
+    global $password;
+    global $username;
+    $remote =$_SERVER['REMOTE_ADDR'];
 if ($remote =="") {$remote="EMPTY";}
 $forward =$_SERVER['HTTP_X_FORWARDED_FOR'];
 if ($forward =="") {$forward="EMPTY";}
-include 'config.php';
+include './config.php';
 try {
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   // set the PDO error mode to exception
@@ -34,13 +38,34 @@ try {
 //recordUse($fname, $dttime, $startTime, $endTime, $userid, $fsucc);
 
 class api {
+    public $base_server_url;
 
-    function fetchFollowersByUsername($username, $base_server_url)
+    function __construct($base_server_url)
+    {
+        $this->base_server_url = $base_server_url;
+
+    }
+    function fetchFollowersByUsername($username)
     {#TODO this
-        $url = $base_server_url + "WORK IN PROGRESS"
+        //create url to endpoint
+        $url = $this->base_server_url . "/following/username/" . $username;
+
+        //initialize curl session
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        //execute
+        $fetchedUsernames = curl_exec($ch);
+
+        //turn string into list of usernames
+        $usernamesList = explode('|', $fetchedUsernames);
+
+
+        return $usernamesList;
     }
 
 }
-
+$api = new api($base_server_url);
 
 ?>

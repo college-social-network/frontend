@@ -2,9 +2,9 @@
 //echo 'Hello ' . htmlspecialchars($_GET["u"]) . '!';
 
 $username = htmlspecialchars($_GET["u"]);
-
+echo "<div id='username'>";
 echo "username: " . $username . "<br>";
-
+echo "</div>";
 
 
 $url = "http://127.0.0.1:5000/userdata/" . $username;
