@@ -45,26 +45,35 @@ class api {
         $this->base_server_url = $base_server_url;
 
     }
-    function fetchFollowersByUsername($username)
-    {#TODO this
-        //create url to endpoint
-        $url = $this->base_server_url . "/following/username/" . $username;
+    public function fetchFollowersByUsername($username)
+    {
+        //call the server to return the data
+        $fetchedUsernames = $this->directCurlCall("/following/username/". $username);
 
-        //initialize curl session
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        //execute
-        $fetchedUsernames = curl_exec($ch);
-
-        //turn string into list of usernames
+        //separate and turn into list
         $usernamesList = explode('|', $fetchedUsernames);
-
 
         return $usernamesList;
     }
 
+
+    private function directCurlCall($endpoint) {
+
+        //url to endpoint
+        $url = $this->base_server_url . $endpoint;
+
+        //init session
+        $ch = curl_init();
+
+        //config
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        //execute
+        $fetchedData = curl_exec($ch);
+
+        return $fetchedData;
+    }
 }
 $api = new api($base_server_url);
 
