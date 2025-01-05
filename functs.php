@@ -40,22 +40,30 @@ try {
 class api {
     public $base_server_url;
 
-    function __construct($base_server_url)
-    {
+    function __construct($base_server_url) {
         $this->base_server_url = $base_server_url;
-
     }
-    public function fetchFollowersByUsername($username)
-    {
+    public function fetchFollowersByUsername($username) {
         //call the server to return the data
         $fetchedUsernames = $this->directCurlCall("/following/username/". $username);
-
         //separate and turn into list
         $usernamesList = explode('|', $fetchedUsernames);
-
         return $usernamesList;
     }
 
+    public function fetchUserDataByUsername($username) {
+        $fetchedData = $this->directCurlCall("/userdata/". $username);
+        $decodedData = json_decode($fetchedData);
+        return $decodedData;
+
+    }
+
+    public function fetchScheduleByUsername($username) {
+        $fetchedData = $this->directCurlCall("/schedule/full/". $username);
+
+        return $fetchedData;
+
+    }
 
     private function directCurlCall($endpoint) {
 
