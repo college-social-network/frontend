@@ -23,27 +23,28 @@ echo "Year: " . $userdata->year . "<br>";
 
 echo "<br> Schedule: " . "<br><br>";
 
-$uncompressedSchedule = $api->fetchScheduleByUsername($username);
-$ex = explode("+", $uncompressedSchedule);
+$compressedSchedule = $api->fetchScheduleByUsername($username);
+$dayAndDayInfo = explode("+", $compressedSchedule);
 
-foreach( $ex as $e) {
-	//echo $e . "<br>";
-	$a = explode("?", $e);
-	if($a[1] != "N") {
-		echo $a[0] . "<br>";
-		$s = explode(".", $a[1]);
-		foreach($s as $p) {
-			$r = explode("@",$p);
-			foreach($r as $o) {
-				echo '&nbsp'.'&nbsp' . $o;}
+foreach( $dayAndDayInfo as $singleDayInfo) {
+
+    $a = explode("?", $singleDayInfo);
+
+    $day = $a[0];
+	$classesCompressed = $a[1];
+
+    if($classesCompressed != "N") {
+		echo $day . "<br>";
+		$classCompressed = explode(".", $classesCompressed);
+
+        foreach($classCompressed as $class) {
+			$uncompressedIndividualClassInfo = explode("@",$class);
+
+            foreach($uncompressedIndividualClassInfo as $data) {
+				echo '&nbsp'.'&nbsp' . $data;}
 		echo "<br>";
-}
-
-
+        }
 	}
-
-
-
 }
 
 
