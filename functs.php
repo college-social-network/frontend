@@ -65,6 +65,12 @@ class api {
 
     }
 
+    public function getAllUsers() {
+        $fetchedUsers = $this->directCurlCall("/getallusers");
+        $usernameList = explode('|', $fetchedUsers);
+        return $usernameList;
+    }
+
     private function directCurlCall($endpoint) {
 
         //url to endpoint
