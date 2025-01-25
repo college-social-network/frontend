@@ -43,10 +43,17 @@ class api {
     function __construct($base_server_url) {
         $this->base_server_url = $base_server_url;
     }
-    public function fetchFollowersByUsername($username) {
+    
+    public function fetchFollowingByUsername($username) {
         //call the server to return the data
         $fetchedUsernames = $this->directCurlCall("/following/username/". $username);
         //separate and turn into list
+        $usernamesList = explode('|', $fetchedUsernames);
+        return $usernamesList;
+    }
+
+    public function fetchFollowersByUsername($username) {
+        $fetchedUsernames = $this->directCurlCall("/followers/username/". $username);
         $usernamesList = explode('|', $fetchedUsernames);
         return $usernamesList;
     }
@@ -71,21 +78,32 @@ class api {
         return $usernameList;
     }
 
-    private function directCurlCall($endpoint) {
+    public function fetchScheduleByUsernameDay($username, $daynum) {
+        $fetchedData = $this->directCurlCall("/schedule/day/". $username. "/". $daynum);
 
+        return $fetchedData;
+    }
+
+    public function recordFunctionUse($fname, $dttime, $startTime, $endTime, $userid, $fsucc, $remote_addr, $forwarded_for) {
+        $remote =$_SERVER['REMOTE_ADDR'];
+        if ($remote =="") {$remote="EMPTY";}
+        $forward =$_SERVER['HTTP_X_FORWARDED_FOR'];
+        if ($forward =="") {$forward="EMPTY";}
+
+        $url = "/recordfunctionuse/" . $fname . "/" . $dttime . "/" . $startTime . "/" . $endTime . "/" . $userid . "/" . $fsucc . "/" . $remote_addr . "/" . $forwarded_for;
+    }
+
+
+    private function directCurlCall($endpoint) {
         //url to endpoint
         $url = $this->base_server_url . $endpoint;
-
         //init session
         $ch = curl_init();
-
         //config
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
-
         //execute
         $fetchedData = curl_exec($ch);
-
         return $fetchedData;
     }
 }

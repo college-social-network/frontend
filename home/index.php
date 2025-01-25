@@ -27,7 +27,7 @@
     include "../config.php";
     include "../functs.php";
 
-    $result = $api->getallusers("all");
+    $result = $api->getAllUsers();
 
     echo "<div id='mainUserList' class='grid grid-cols-1 gap-3'>";
     foreach ($result as $username) {
