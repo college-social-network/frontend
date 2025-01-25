@@ -35,8 +35,8 @@
 
 
         echo "
-        <div class='flex w-full items-center bg-gray-700 border p-1 rounded shadow-md'>
-            <div class='flex w-full pl-2 flex-col items-center'>
+        <div class='flex w-full items-center bg-gray-700 border p-1 rounded shadow-md w-screen'>
+            <div class='flex items-center'>
                 <img src='https://static-00.iconduck.com/assets.00/user-2-account-icon-2048x2046-oucjsuyg.png' alt='{$cur_user_data->name}' class='w-16 h-16 rounded-full'>
             </div>
             <a href='../profile?u={$username}' class='flex flex-col w-2/3 pl-4'>
